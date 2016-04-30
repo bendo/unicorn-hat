@@ -3,6 +3,9 @@
 import unicornhat as unicorn
 import time, math, colorsys
 
+unicorn.set_layout(unicorn.PHAT)
+unicorn.brightness(0.5)
+
 print("Reticulating splines")
 time.sleep(.5)
 print("Enabled unicorn poop module!")
@@ -13,7 +16,7 @@ i = 0.0
 offset = 30
 while True:
         i = i + 0.3
-        for y in range(8):
+        for y in range(4):
                 for x in range(8):
                         r = 0#x * 32
                         g = 0#y * 32

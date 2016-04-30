@@ -4,8 +4,6 @@ import unicornhat as unicorn
 import time, colorsys
 import numpy as np
 
-unicorn.brightness(0.5)
-
 def make_gaussian(fwhm):
 	x = np.arange(0, 8, 1, float)
 	y = x[:, np.newaxis]
@@ -18,6 +16,7 @@ while True:
 	for z in list(range(1, 10)[::-1]) + list(range(1, 10)):
 		fwhm = 5.0/z
 		gauss = make_gaussian(fwhm)
+                start = time.time()
 		for y in range(8):
 			for x in range(8):
 				h = 1.0/(x + y + 1)
@@ -29,4 +28,7 @@ while True:
 				b = int(rgb[2]*255.0)
 				unicorn.set_pixel(x, y, r, g, b)
 		unicorn.show()
-		time.sleep(0.005)
+                end = time.time()
+                t = end - start
+                if t < 0.04:
+		    time.sleep(0.04 - t)

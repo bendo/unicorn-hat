@@ -12,15 +12,14 @@ class CustomInstallCommand(build_py):
         subprocess.Popen(["make","-Clib","lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         build_py.run(self)
 
-
 setup(name              = 'rpi_ws281x',
-      version           = '1.2.1',
+      version           = '2.0.0',
       author            = 'Jeremy Garff',
       author_email      = 'jer@jers.net',
       description       = 'Userspace Raspberry Pi PWM library for WS281X LEDs.',
       license           = 'MIT',
       url               = 'https://github.com/jgarff/rpi_ws281x/',
-      cmdclass		= {'build_py':CustomInstallCommand},
+      cmdclass          = {'build_py':CustomInstallCommand},
       py_modules        = ['neopixel'],
       ext_modules       = [Extension('_rpi_ws281x', 
                                      sources=['rpi_ws281x_wrap.c'],
