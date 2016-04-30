@@ -1,5 +1,6 @@
-import unicornhat as u
 from random import randint
+
+import unicornhat as u
 
 while True:
     x = randint(0, 7)

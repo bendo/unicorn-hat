@@ -1,25 +1,30 @@
 #!/usr/bin/env python
 
+import threading
+import time
+
 import unicornhat as unicorn
 from graphics import Drawing, Color
-import time, signal, threading
+
 
 class UnicornDrawing(Drawing):
-  def __init__(self):
-    Drawing.__init__(self,8,8)
+    def __init__(self):
+        Drawing.__init__(self, 8, 8)
 
-  '''
-  All drawing operations use the pixel method
-  so we override it for UnicornHat
-  '''
-  def pixel(self, x, y, col):
-    if x < 0 or x > 7 or y < 0 or y > 7:
-      return False
-    self.buffer[(x,y)] = col
-    unicorn.set_pixel(x, y, col.r, col.g, col.b)
+    '''
+    All drawing operations use the pixel method
+    so we override it for UnicornHat
+    '''
 
-  def show(self):
-  	unicorn.show()
+    def pixel(self, x, y, col):
+        if x < 0 or x > 7 or y < 0 or y > 7:
+            return False
+        self.buffer[(x, y)] = col
+        unicorn.set_pixel(x, y, col.r, col.g, col.b)
+
+    def show(self):
+        unicorn.show()
+
 
 d = UnicornDrawing()
 
@@ -32,36 +37,39 @@ R = 3
 # Rotation offset of clock, set to 0, 90, 180, 270, etc
 unicorn.rotation(0)
 
+
 def setBrightness(currenttime):
-  currenthour = currenttime.tm_hour
-  # if it's between 10 am and 8 pm,
-  # use dimmer brightness
-  if(currenthour < 10 or currenthour > 20):
-    unicorn.brightness(0.5)
-  else:
-    unicorn.brightness(1)
+    currenthour = currenttime.tm_hour
+    # if it's between 10 am and 8 pm,
+    # use dimmer brightness
+    if currenthour < 10 or currenthour > 20:
+        unicorn.brightness(0.5)
+    else:
+        unicorn.brightness(1)
+
 
 def tick():
-  currenttime = time.localtime()
-  currenthour = currenttime.tm_hour
-  currentmin  = currenttime.tm_min
-  currentsec  = currenttime.tm_sec
+    currenttime = time.localtime()
+    currenthour = currenttime.tm_hour
+    currentmin = currenttime.tm_min
+    currentsec = currenttime.tm_sec
 
-  # Set daytime or nighttime brightness
-  setBrightness(currenttime)
-  
-  d.clear()
-  # Draw the circle around the clock
-  d.circle(O_X,O_Y,R,Color(255,0,255))
-  
-  # Draw the clock hands
-  d.circle_line(O_X,O_Y,R-1,(-360.0*(currenthour/12.0)),Color(255,0,0))
-  d.circle_line(O_X,O_Y,R-1,(-360.0*(currentmin/60.0)), Color(0,255,0))
-  d.circle_line(O_X,O_Y,R-1,(-360.0*(currentsec/60.0)), Color(0,0,255))
-  
-  # draw buffer to hardware
-  d.show()
-  
-  threading.Timer(1,tick).start()
+    # Set daytime or nighttime brightness
+    setBrightness(currenttime)
+
+    d.clear()
+    # Draw the circle around the clock
+    d.circle(O_X, O_Y, R, Color(255, 0, 255))
+
+    # Draw the clock hands
+    d.circle_line(O_X, O_Y, R - 1, (-360.0 * (currenthour / 12.0)), Color(255, 0, 0))
+    d.circle_line(O_X, O_Y, R - 1, (-360.0 * (currentmin / 60.0)), Color(0, 255, 0))
+    d.circle_line(O_X, O_Y, R - 1, (-360.0 * (currentsec / 60.0)), Color(0, 0, 255))
+
+    # draw buffer to hardware
+    d.show()
+
+    threading.Timer(1, tick).start()
+
 
 tick()

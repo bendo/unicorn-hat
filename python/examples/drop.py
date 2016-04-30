@@ -7,7 +7,6 @@ heights = []
 
 
 def setup():
-
     global heights
     heights = []
     for b in range(0, 6):
@@ -23,7 +22,6 @@ def setup():
 
 
 def drop_ball():
-
     ball_colour = [randint(100, 255), randint(100, 255), randint(100, 255)]
     ball_column = randint(0, 5)
 
@@ -49,4 +47,3 @@ while True:
         drop_ball()
     time.sleep(1)
     setup()
-

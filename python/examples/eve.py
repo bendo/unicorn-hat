@@ -1,44 +1,51 @@
 #!/usr/bin/env python
 
-import unicornhat as unicorn
-import time, math, colorsys, random, sys, glib, gudev
+import glib
+import gudev
+import math
+import random
+import time
 
-sin_off = [[0]*8 for i in range(8)]
+import unicornhat as unicorn
+
+sin_off = [[0] * 8 for i in range(8)]
 for y in range(8):
     for x in range(8):
         sin_off[x][y] = random.random() * (math.pi * 2)
 
-tick_mask = [[0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,1,0],
-             [0,0,0,0,0,1,1,1],
-             [0,0,1,0,1,1,1,0],
-             [0,1,1,1,1,1,0,0],
-             [0,0,1,1,1,0,0,0],
-             [0,0,0,1,0,0,0,0],
-             [0,0,0,0,0,0,0,0]]
+tick_mask = [[0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 1, 0],
+             [0, 0, 0, 0, 0, 1, 1, 1],
+             [0, 0, 1, 0, 1, 1, 1, 0],
+             [0, 1, 1, 1, 1, 1, 0, 0],
+             [0, 0, 1, 1, 1, 0, 0, 0],
+             [0, 0, 0, 1, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0]]
 
 steps_per = 16
+
+
 def background(x, y, step):
     v = math.sin(sin_off[x][y] + (step / 10.0))
 
     g = v + 1.0
-    g = g * 20.0
+    g *= 20.0
     g += 20
 
     v = math.sin(sin_off[y][x] + (step / 20.0))
 
     b = v + 1.0
-    b = b * 15.0
-    b += 20      
+    b *= 15.0
+    b += 20
 
     r = 0
-   
-    g /= (r/50) + 1
-    b /= (r/50) + 1
+
+    g /= (r / 50) + 1
+    b /= (r / 50) + 1
 
     pos = int(step / steps_per)
     fill = int((float(step % steps_per) / float(steps_per)) * 8.0)
-    
+
     if x < pos:
         r = math.sin(sin_off[y][x] + (step / 20.0))
         r *= 30
@@ -54,11 +61,12 @@ def background(x, y, step):
 
     return (g, r, b)
 
+
 def effect():
     # trigger effect
     for i in range(steps_per * 8):
         for y in range(8):
-            for x in range(8):              
+            for x in range(8):
                 r, g, b = background(x, y, i)
                 r = int(max(0, min(255, r)))
                 g = int(max(0, min(255, g)))
@@ -74,7 +82,7 @@ def effect():
         for y in range(8):
             for x in range(8):
                 r = 0
-                b = 0             
+                b = 0
                 g = 100
                 g *= tick_mask[y][x]
                 g *= v
@@ -87,12 +95,14 @@ def effect():
 
         time.sleep(0.02)
 
+
 def clear():
     for y in range(8):
         for x in range(8):
             unicorn.set_pixel(x, y, 0, 0, 0)
 
     unicorn.show()
+
 
 def callback(client, action, device, user_data):
     if action == "add":

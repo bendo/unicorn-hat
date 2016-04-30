@@ -8,7 +8,6 @@ points = []
 
 
 class LightPoint:
-
     def __init__(self):
 
         self.direction = randint(1, 4)
@@ -31,7 +30,6 @@ class LightPoint:
 
 
 def update_positions():
-
     for point in points:
         if point.direction == 1:
             point.y += 1
@@ -52,7 +50,6 @@ def update_positions():
 
 
 def plot_points():
-
     uh.clear()
     for point in points:
         uh.set_pixel(point.x, point.y, point.colour[0], point.colour[1], point.colour[2])
@@ -66,4 +63,3 @@ while True:
     plot_points()
     update_positions()
     time.sleep(0.03)
-

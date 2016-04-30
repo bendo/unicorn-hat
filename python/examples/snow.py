@@ -11,20 +11,17 @@ unicorn.brightness(0.4)
 
 
 def init():
-
     # create a buffer of <height> blank rows
     for i in range(height):
         rows.append(get_blank_row())
 
 
 def get_blank_row():
-
     # generate a blank row
     return [0] * width
 
 
 def get_new_row():
-
     # get a new blank row and add a random brightness snowflake to a random column
     row = get_blank_row()
     row[randint(0, width - 1)] = 50 + randint(0, 155)
@@ -32,7 +29,6 @@ def get_new_row():
 
 
 def update_display():
-
     # keep track of the row we are updating
     c = row_pointer
     for h in range(height):
