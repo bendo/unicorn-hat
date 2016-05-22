@@ -6,7 +6,7 @@ import time
 import unicornhat as unicorn
 
 unicorn.set_layout(unicorn.PHAT)
-unicorn.brightness(0.5)
+unicorn.brightness(0.2)
 
 print("Reticulating splines")
 time.sleep(.5)
